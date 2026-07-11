@@ -58,7 +58,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(AR) $@ $(OBJS)
-	@echo "\033[32mLibray $(NAME) archived complited!\033[0m\033[m"
+	@echo "	\033[32marchived:	$(NAME)\033[0m\033[m"
 
 $(BUILD_PATH)/%.o: $(SRC_PATH)/%.c | $(BUILD_PATH)
 	$(CC) $(CFLAGS) -c $< -o $@

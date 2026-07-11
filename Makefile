@@ -32,7 +32,7 @@ $(NAME): $(OBJS) $(LIBFT_FILE)
 	ranlib $(NAME)
 	rm -rf temp_dir
 	rm -rf temp.a
-	@echo "\033[32mLibray $(NAME) archived complited!\033[0m\033[m"
+	@echo "	\033[32marchived:	$(NAME)\033[0m\033[m"
 
 $(BUILD_PATH)/%.o: $(SRC_PATH)/%.c | $(BUILD_PATH)
 	$(CC) -I$(INCLUDE_PATH) -c $< -o $@
