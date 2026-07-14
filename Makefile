@@ -16,7 +16,7 @@ CC = cc
 CFLAGS = -g -I$(INCLUDE_PATH) -I$(LIBFT_INCLUDE_PATH) -Wall -Werror -Wextra
 LDFLAGS = -L$(LIBFT_DIR) -lft
 
-SRCS = src/main.c
+SRCS = src/ft_printf.c src/ft_handler.c
 OBJS = $(SRCS:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
 
 all: $(NAME)
@@ -35,7 +35,7 @@ $(NAME): $(OBJS) $(LIBFT_FILE)
 	@echo "	\033[32marchived:	$(NAME)\033[0m\033[m"
 
 $(BUILD_PATH)/%.o: $(SRC_PATH)/%.c | $(BUILD_PATH)
-	$(CC) -I$(INCLUDE_PATH) -c $< -o $@
+	$(CC) -I$(INCLUDE_PATH) -I$(LIBFT_INCLUDE_PATH) -c $< -o $@
 
 $(BUILD_PATH):
 	mkdir -p $@
@@ -47,6 +47,13 @@ clean:
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -rf $(NAME)
+
+test: # Depende somente de um main.c existente o dev test pode usar <>(ideal) ou ""
+	@clear
+	$(MAKE) -C .
+	@echo "\033[32mtest success!\033[0m\033[m"
+	cc main.c -I./include $(NAME) && ./a.out
+	rm -rf a.out
 
 re: fclean all
 
