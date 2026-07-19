@@ -1,62 +1,57 @@
-#include "ft_handler.h"
-#include <libft.h>
+#include "libft.h"
+#include "ft_printf.h"
 
-// preciso implementar codigos de tratamando de tipos
-static size_t	ft_check(va_list list, const char *pf, size_t size, size_t i)
+static int ft_checker(va_list list, const char *format, size_t i)
 {
-	char	*pintermed;
+	char *hex_lower;
+	char *hex_upper;
 
-	pintermed = NULL;
-	if (pf[i] == 'c')
-		ft_putchar_fd(va_arg(list, int), STDOUT_FILENO);
-	else if (pf[i] == 's')
-	{
-		pintermed = va_arg(list, char *);
-		if (pintermed == NULL)
-		{
-			ft_putstr_fd("(null)", STDOUT_FILENO);
-			size = (size + ft_strlen("(null)")) - 1;
-		}
-		else
-		{
-			ft_putstr_fd(pintermed, STDOUT_FILENO);
-			size = (size + ft_strlen(pintermed)) - 1;
-		}
-	}
-	return (size);
+	hex_lower = "0123456789abcdef";
+	hex_upper = "0123456789ABCDEF";
+	if (format[i] == 'c')
+		return (ft_print_fd(va_arg(list, int), STDOUT_FILENO));
+	else if (format[i] == 's')
+		return (ft_printstr_fd(va_arg(list, char *), STDOUT_FILENO));
+	else if (format[i] == 'd' || format[i] == 'i')
+		return (ft_putlong_fd(va_arg(list, int), STDOUT_FILENO));
+	else if (format[i] == 'u')
+		return (ft_putlong_fd(va_arg(list, unsigned int), STDOUT_FILENO));
+	else if (format[i] == 'x')
+		return (ft_puthex_fd(va_arg(list, unsigned int), hex_lower, STDOUT_FILENO));
+	else if (format[i] == 'X')
+		return (ft_puthex_fd(va_arg(list, unsigned int), hex_upper, STDOUT_FILENO));
+	else if (format[i] == 'p')
+		return (ft_putptr_fd(va_arg(list, unsigned long), STDOUT_FILENO));
+	else if (format[i] == '%')
+		return (ft_print_fd('%', 1));
+	return (-1);
 }
 
-static size_t	ft_loop(va_list list, const char *pf, size_t size, size_t i)
+int	ft_handler(const char *format, va_list list, int count)
 {
+	size_t	i;
+	int		check;
+
 	i = 0;
-	size = 0;
-	while (pf[i] != '\0')
+	check = 0;
+	while (format[i] != '\0')
 	{
-		// algo das flags acho que fiz merda
-		if (pf[i] != '%')
-			ft_putchar_fd(pf[i], STDOUT_FILENO);
+		if (format[i] != '%')
+			count += ft_print_fd(format[i], STDOUT_FILENO);
 		else
 		{
 			i++;
-			size = ft_check(list, pf, size, i);
+			check += ft_checker(list, format, i);
+			if (check == -1)
+				return (-1);
+			else
+			{
+				count += check;
+				check = 0;
+			}
 		}
 		i++;
-		size++;
 	}
-	return (size);
-}
-
-int	ft_handler(const char *format, va_list list)
-{
-	size_t		i;
-	size_t		size;
-	size_t		result;
-	const char	*pformat;
-
-	pformat = format;
-	i = 0;
-	size = 0;
-	result = ft_loop(list, pformat, size, i);
 	va_end(list);
-	return (result);
+	return (count);
 }

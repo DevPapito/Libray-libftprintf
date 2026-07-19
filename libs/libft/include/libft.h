@@ -6,7 +6,7 @@
 /*   By: pezio <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 18:58:07 by pezio             #+#    #+#             */
-/*   Updated: 2026/06/16 17:06:21 by pezio            ###   ########.fr       */
+/*   Updated: 2026/07/16 18:08:40 by pezio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int nb, int fd);
+int		ft_putlong_fd(long nb, int fd);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -64,5 +65,8 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void(*del)(void *));
+size_t	ft_putnbr_unsigned_fd(unsigned int n, int fd);
+char	*ft_itoa_unsigned(unsigned int n);
+size_t	ft_putnbr_modern_fd(long n, int fd);
 
 #endif

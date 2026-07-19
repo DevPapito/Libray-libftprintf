@@ -1,60 +1,53 @@
-MAKEFLAGS = --silent
+MAKEFLAGS	:=	--silent
+NAME	:=	libftprintf.a
+AR		:=	ar rcs
+CC		:=	cc
+CFLAGS	:=	-g -Wall -Wextra -Werror
 
-SRC_PATH = src
-INCLUDE_PATH = include
-BUILD_PATH = build
-NAME = libftprintf.a
+SRC		:=	src
+INCLUDE	:=	include
+BUILD	:=	build
+LIBS	:=	libs
+HEADER	:=	-I $(INCLUDE) -I $(LIBS)/libft/include
 
-LIBFT_DIR = libs/libft
-LIBFT_SRC_PATH = $(LIBFT_DIR)/src
-LIBFT_INCLUDE_PATH = $(LIBFT_DIR)/include
-LIBFT_BUILD_PATH = $(LIBFT_DIR)/build
-LIBFT_NAME = libft.a
-LIBFT_FILE = $(LIBFT_DIR)/$(LIBFT_NAME)
+# libft.a
+LIBFT			:=	$(LIBS)/libft/libft.a
 
-CC = cc
-CFLAGS = -g -I$(INCLUDE_PATH) -I$(LIBFT_INCLUDE_PATH) -Wall -Werror -Wextra
-LDFLAGS = -L$(LIBFT_DIR) -lft
-
-SRCS = src/ft_printf.c src/ft_handler.c
-OBJS = $(SRCS:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
+SRCS		:=	src/ft_printf.c \
+				src/ft_utils.c \
+				src/ft_handler.c
+OBJS		:=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.o)
 
 all: $(NAME)
 
-$(LIBFT_FILE):
-	$(MAKE) -C $(LIBFT_DIR)
+$(LIBFT):
+	$(MAKE) -C $(LIBS)/libft
 
-$(NAME): $(OBJS) $(LIBFT_FILE)
-	cp $(LIBFT_FILE) temp.a
+$(NAME): $(OBJS) $(LIBFT)
+	cp $(LIBFT) temp.a
 	mkdir temp_dir
-	cd temp_dir && ar x ../$(LIBFT_FILE)
-	ar rcs $(NAME) $(OBJS) temp_dir/*.o
+	cd temp_dir && ar x ../$(LIBFT)
+	$(AR) $(NAME) $(OBJS) temp_dir/*.o
 	ranlib $(NAME)
 	rm -rf temp_dir
 	rm -rf temp.a
-	@echo "	\033[32marchived:	$(NAME)\033[0m\033[m"
+	printf "\n\033[32mLibrary $(NAME) is ready!\033[0m\n\n"
 
-$(BUILD_PATH)/%.o: $(SRC_PATH)/%.c | $(BUILD_PATH)
-	$(CC) -I$(INCLUDE_PATH) -I$(LIBFT_INCLUDE_PATH) -c $< -o $@
+$(BUILD)/%.o: $(SRC)/%.c | $(BUILD)
+	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
 
-$(BUILD_PATH):
-	mkdir -p $@
+$(BUILD):
+	mkdir -p $(BUILD)
 
 clean:
-	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -rf $(BUILD_PATH)
+	$(MAKE) -C $(LIBS)/libft clean
+	rm -rf $(BUILD)
 
 fclean: clean
-	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -rf $(NAME)
 
-test: # Depende somente de um main.c existente o dev test pode usar <>(ideal) ou ""
-	@clear
-	$(MAKE) -C .
-	@echo "\033[32mtest success!\033[0m\033[m"
-	cc main.c -I./include $(NAME) && ./a.out
-	rm -rf a.out
+	$(MAKE) -C $(LIBS)/libft fclean
+	rm -rf $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all, clean, fclean, re
