@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_handler.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pezio <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/19 14:43:31 by pezio             #+#    #+#             */
+/*   Updated: 2026/07/19 14:45:11 by pezio            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "ft_printf.h"
 
-static int ft_checker(va_list list, const char *format, size_t i)
+static int	ft_checker(va_list list, const char *format, size_t i)
 {
-	char *hex_lower;
-	char *hex_upper;
+	char	*hex_lower;
+	char	*hex_upper;
 
 	hex_lower = "0123456789abcdef";
 	hex_upper = "0123456789ABCDEF";
@@ -17,9 +29,9 @@ static int ft_checker(va_list list, const char *format, size_t i)
 	else if (format[i] == 'u')
 		return (ft_putlong_fd(va_arg(list, unsigned int), STDOUT_FILENO));
 	else if (format[i] == 'x')
-		return (ft_puthex_fd(va_arg(list, unsigned int), hex_lower, STDOUT_FILENO));
+		return (ft_puthex_fd(va_arg(list, unsigned int), hex_lower, 1));
 	else if (format[i] == 'X')
-		return (ft_puthex_fd(va_arg(list, unsigned int), hex_upper, STDOUT_FILENO));
+		return (ft_puthex_fd(va_arg(list, unsigned int), hex_upper, 1));
 	else if (format[i] == 'p')
 		return (ft_putptr_fd(va_arg(list, unsigned long), STDOUT_FILENO));
 	else if (format[i] == '%')

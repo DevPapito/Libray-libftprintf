@@ -1,17 +1,17 @@
 MAKEFLAGS	:=	--silent
-NAME	:=	libftprintf.a
-AR		:=	ar rcs
-CC		:=	cc
-CFLAGS	:=	-g -Wall -Wextra -Werror
+NAME		:=	libftprintf.a
+AR			:=	ar rcs
+CC			:=	cc
+CFLAGS		:=	-g -Wall -Wextra -Werror
 
-SRC		:=	src
-INCLUDE	:=	include
-BUILD	:=	build
-LIBS	:=	libs
-HEADER	:=	-I $(INCLUDE) -I $(LIBS)/libft/include
+SRC			:=	src
+INCLUDE		:=	include
+BUILD		:=	build
+LIBS		:=	libs
+HEADER		:=	-I $(INCLUDE) -I $(LIBS)/libft/include
 
 # libft.a
-LIBFT			:=	$(LIBS)/libft/libft.a
+LIBFT		:=	$(LIBS)/libft/libft.a
 
 SRCS		:=	src/ft_printf.c \
 				src/ft_utils.c \

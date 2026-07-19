@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pezio <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/19 14:43:23 by pezio             #+#    #+#             */
+/*   Updated: 2026/07/19 14:43:43 by pezio            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_print_fd(char c, int fd)
@@ -30,7 +42,7 @@ int	ft_puthex_fd(unsigned long hex, char *base, int fd)
 
 int	ft_putptr_fd(unsigned long ptr, int fd)
 {
-	int count;
+	int	count;
 
 	if (ptr == 0)
 	{
